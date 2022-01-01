@@ -20,7 +20,8 @@ export const state = () => ({
         'JPY',
         'KRW'
     ],
-    listExchange : []
+    listExchange : [],
+    listSymbols : null
 })
 
 export const getters = {
@@ -29,6 +30,9 @@ export const getters = {
 	},
     getListAvailableCurrencies (state) {
         return state.listAvailableCurrencies
+	},
+    getListSymbols (state) {
+        return state.listSymbols
 	},
 }
 
@@ -47,6 +51,9 @@ export const mutations = {
     },
     setRemoveCurrencies (state,payload) {
         state.listCurrencies.splice(payload, 1);
+    },
+    setListSymbols (state,payload) {
+        state.listSymbols = payload
     }
 }
 
@@ -74,6 +81,14 @@ export const actions = {
             commit('setListCurrencies', data.selected)
         } catch (error) {
             console.log('err', error)
+        }
+    },
+    async fetchSymbols({commit,state},data) {
+        try {
+            let response = await axios.get('https://api.exchangerate.host/symbols')
+            commit('setListSymbols',response.data.symbols)
+        } catch (error) {
+            
         }
     }
 }

@@ -1,18 +1,15 @@
 FROM node:12-alpine
-RUN apk add g++ make python 
 
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY . /usr/src/app/
-
-RUN yarn install
-RUN yarn build
-RUN yarn generate
+RUN npm install
+RUN npm run build
 
 ENV HOST 0.0.0.0
-EXPOSE 3030
+EXPOSE 3000
 
 # start command
-CMD [ "yarn", "start" ]
+CMD [ "npm", "run", "start" ]
